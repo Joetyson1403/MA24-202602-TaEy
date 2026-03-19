@@ -4,13 +4,13 @@
 # Fichier pour l'affichage du plateau avec Pygame
  
 import pygame
-import sys
  
 # Couleurs de base pour Othello
 BOARD_GREEN = (34, 139, 34)  # Vert pour le fond
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 LINE_COLOR = (0, 0, 0) # Lignes de séparation de la grille
+HINT_COLOR = (0, 180, 0) # Couleur pour afficher les coups valides
  
 class GameWindow:
     def __init__(self, game_logic):
@@ -31,8 +31,15 @@ class GameWindow:
             pygame.draw.line(screen, LINE_COLOR, (0, i * self.cell_size), (self.width, i * self.cell_size), 2)
             # Lignes verticales
             pygame.draw.line(screen, LINE_COLOR, (i * self.cell_size, 0), (i * self.cell_size, self.height), 2)
+
+        # 3. Affichage des coups valides pour le joueur courant (petits ronds verts)
+        valid_moves = self.game_logic.get_valid_moves(self.game_logic.current_player)
+        for (row, col) in valid_moves:
+            cx = col * self.cell_size + self.cell_size // 2
+            cy = row * self.cell_size + self.cell_size // 2
+            pygame.draw.circle(screen, HINT_COLOR, (cx, cy), 10)
            
-        # 3. Dessin des pions en lisant la grille de la logique de jeu
+        # 4. Dessin des pions en lisant la grille de la logique de jeu
         # Pions centraux initiaux
         for row in range(8):
             for col in range(8):
@@ -51,7 +58,6 @@ class GameWindow:
                     pygame.draw.circle(screen, WHITE, (center_x, center_y), radius)
  
     def main_loop(self):
-        print("Lancement de la boucle Pygame")
         # Initialisation obligatoire de Pygame
         pygame.init()
        
@@ -67,6 +73,15 @@ class GameWindow:
                 # Si le joueur clique sur la croix de la fenêtre
                 if event.type == pygame.QUIT:
                     running = False
+
+                # Si le joueur clique sur le plateau
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_x, mouse_y = event.pos
+                    # Conversion des pixels en case (row, col)
+                    col = mouse_x // self.cell_size
+                    row = mouse_y // self.cell_size
+                    # On essaie de jouer le coup (la logique vérifie si c'est valide)
+                    self.game_logic.play_move(row, col)
            
             # Dessin du plateau et des pions à chaque frame
             self.draw_board(screen)
@@ -76,6 +91,3 @@ class GameWindow:
            
         # Fermeture propre de Pygame
         pygame.quit()
- 
- 
- 
