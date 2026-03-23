@@ -19,3 +19,12 @@
 *   **Réponse IA** : 
     *   Structuration, mise au propre et ajout de toutes ces fonctionnalités dans le document `user_stories.md` sous le format attendu ("En tant que joueur, je veux...").
     *   Mise à jour du squelette des tâches (`task.md`) pour inclure l'intégration de ces éléments dans les bons modules (Tkinter pour les menus/noms/règles, Pygame pour le plateau/audio, logique CPU pour l'IA).
+
+## 3. Amélioration du design graphique (Tkinter et Pygame)
+
+*   **Description de la problématique** : Le jeu initial était visuellement très basique (carrés unis, pas d'ombres, menu Tkinter par défaut) .
+*   **Prompt effectué** : 
+    1. « *Comment faire des pions arrondis avec un peu de relief ?* »
+*   **Réponse IA** : 
+    *   Modification de `game_pygame.py` pour utiliser `pygame.draw.circle` avec des superpositions simples pour créer un effet d'ombre et de reflet sur les pions, sans utiliser d'images externes complexes.
+    *   Nettoyage et simplification des commentaires pour bien expliquer chaque étape du dessin (plateau, lignes, indicateurs de coups valides).
