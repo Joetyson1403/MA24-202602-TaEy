@@ -17,57 +17,80 @@ class GameLogic:
         # Un coup est valide s'il encadre au moins un pion adverse
         valid_moves = []
         opponent = 2 if player == 1 else 1
-
+ 
         for row in range(8):
             for col in range(8):
                 # La case doit être vide
                 if self.board.grid[row][col] != 0:
                     continue
-
+ 
                 # On vérifie dans les 8 directions autour de la case
                 for dr, dc in [(-1,0),(1,0),(0,-1),(0,1),(-1,-1),(-1,1),(1,-1),(1,1)]:
                     r, c = row + dr, col + dc
                     found_opponent = False
-
+ 
                     # On avance tant qu'on trouve des pions adverses
                     while 0 <= r < 8 and 0 <= c < 8 and self.board.grid[r][c] == opponent:
                         found_opponent = True
                         r += dr
                         c += dc
-
+ 
                     # Si on a dépassé un ou plusieurs adverses et qu'on tombe sur un allié -> coup valide
                     if found_opponent and 0 <= r < 8 and 0 <= c < 8 and self.board.grid[r][c] == player:
                         valid_moves.append((row, col))
                         break  # No need to check other directions
-
+ 
         return valid_moves
-
+ 
     def play_move(self, row, col):
         # On vérifie si le coup est dans la liste des coups valides
         if (row, col) not in self.get_valid_moves(self.current_player):
             return False
-
+ 
         opponent = 2 if self.current_player == 1 else 1
-
+ 
         # On pose le pion du joueur courant
         self.board.grid[row][col] = self.current_player
-
+ 
         # On retourne les pions adverses dans les 8 directions
         for dr, dc in [(-1,0),(1,0),(0,-1),(0,1),(-1,-1),(-1,1),(1,-1),(1,1)]:
             pieces_to_flip = []
             r, c = row + dr, col + dc
-
+ 
             while 0 <= r < 8 and 0 <= c < 8 and self.board.grid[r][c] == opponent:
                 pieces_to_flip.append((r, c))
                 r += dr
                 c += dc
-
+ 
             # On retourne seulement si on termine sur un pion allié
             if pieces_to_flip and 0 <= r < 8 and 0 <= c < 8 and self.board.grid[r][c] == self.current_player:
                 for pr, pc in pieces_to_flip:
                     self.board.grid[pr][pc] = self.current_player
-
+ 
         # On passe au joueur suivant
         self.current_player = opponent
-
+ 
+        # Si le joueur suivant n'a aucun coup valide, on re-passe le tour
+        if not self.get_valid_moves(self.current_player):
+            self.current_player = 2 if self.current_player == 1 else 1
+ 
         return True
+ 
+    def get_score(self):
+        # On compte le nombre de pions de chaque joueur sur le plateau
+        score_black = 0
+        score_white = 0
+        for row in range(8):
+            for col in range(8):
+                if self.board.grid[row][col] == 1:
+                    score_black += 1
+                elif self.board.grid[row][col] == 2:
+                    score_white += 1
+        return score_black, score_white
+ 
+    def is_game_over(self):
+        # La partie est finie quand aucun des deux joueurs ne peut jouer
+        if self.get_valid_moves(1) or self.get_valid_moves(2):
+            return False
+        return True
+ 
