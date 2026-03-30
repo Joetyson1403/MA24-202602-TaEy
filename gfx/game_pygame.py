@@ -18,8 +18,10 @@ TEXT_COLOR = (230, 230, 230)
 GRAY = (130, 130, 130)
 
 class GameWindow:
-    def __init__(self, game_logic):
+    def __init__(self, game_logic, p1_name="Noir", p2_name="Blanc"):
         self.game_logic = game_logic
+        self.p1_name = p1_name
+        self.p2_name = p2_name
        
         # Dimensions de la fenêtre et des cases
         self.cell_size = 75
@@ -90,14 +92,14 @@ class GameWindow:
         
         # Score Noir
         pygame.draw.circle(screen, BLACK, (self.board_size + 30, 90), 12)
-        screen.blit(font_normal.render("Noir :", True, TEXT_COLOR), (self.board_size + 50, 80))
+        screen.blit(font_normal.render(f"{self.p1_name} :", True, TEXT_COLOR), (self.board_size + 50, 80))
         score_noir = font_big.render(str(nb_noirs), True, TEXT_COLOR)
         screen.blit(score_noir, score_noir.get_rect(centerx=center_x, y=110))
         
         # Score Blanc
         pygame.draw.circle(screen, WHITE, (self.board_size + 30, 175), 12)
         pygame.draw.circle(screen, GRAY, (self.board_size + 30, 175), 12, 1)
-        screen.blit(font_normal.render("Blanc :", True, TEXT_COLOR), (self.board_size + 50, 165))
+        screen.blit(font_normal.render(f"{self.p2_name} :", True, TEXT_COLOR), (self.board_size + 50, 165))
         score_blanc = font_big.render(str(nb_blancs), True, TEXT_COLOR)
         screen.blit(score_blanc, score_blanc.get_rect(centerx=center_x, y=195))
         
@@ -111,11 +113,11 @@ class GameWindow:
         # Pion du joueur courant
         if self.game_logic.current_player == 1:
             pygame.draw.circle(screen, BLACK, (center_x, 315), 20)
-            nom = font_normal.render("Noir", True, TEXT_COLOR)
+            nom = font_normal.render(self.p1_name, True, TEXT_COLOR)
         else:
             pygame.draw.circle(screen, WHITE, (center_x, 315), 20)
             pygame.draw.circle(screen, GRAY, (center_x, 315), 20, 1)
-            nom = font_normal.render("Blanc", True, TEXT_COLOR)
+            nom = font_normal.render(self.p2_name, True, TEXT_COLOR)
         
         screen.blit(nom, nom.get_rect(centerx=center_x, y=345))
 
@@ -146,9 +148,9 @@ class GameWindow:
         
         # Déterminer le gagnant
         if nb_noirs > nb_blancs:
-            message = "Noir gagne !"
+            message = f"{self.p1_name} gagne !"
         elif nb_blancs > nb_noirs:
-            message = "Blanc gagne !"
+            message = f"{self.p2_name} gagne !"
         else:
             message = "Egalite !"
         
@@ -160,7 +162,7 @@ class GameWindow:
         screen.blit(texte, texte.get_rect(center=(self.board_size // 2, self.height // 2 - 20)))
         
         # Score final
-        score = font_score.render(f"Noir {nb_noirs} - {nb_blancs} Blanc", True, TEXT_COLOR)
+        score = font_score.render(f"{self.p1_name} {nb_noirs} - {nb_blancs} {self.p2_name}", True, TEXT_COLOR)
         screen.blit(score, score.get_rect(center=(self.board_size // 2, self.height // 2 + 25)))
  
     def main_loop(self):

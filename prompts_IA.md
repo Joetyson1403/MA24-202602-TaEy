@@ -24,7 +24,6 @@
 
 *   **Description de la problématique** : Le jeu initial était visuellement très basique (carrés unis, pas d'ombres, menu Tkinter par défaut) .
 *   **Prompt effectué** : 
-    1. « *Comment faire des pions arrondis avec un peu de relief ?* »
+    * « *Comment faire des pions ronds avec un peu de relief ?* »
 *   **Réponse IA** : 
     *   Modification de `game_pygame.py` pour utiliser `pygame.draw.circle` avec des superpositions simples pour créer un effet d'ombre et de reflet sur les pions, sans utiliser d'images externes complexes.
-    *   Nettoyage et simplification des commentaires pour bien expliquer chaque étape du dessin (plateau, lignes, indicateurs de coups valides).
