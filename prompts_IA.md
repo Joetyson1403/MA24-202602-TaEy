@@ -27,3 +27,25 @@
     * « *Comment faire des pions ronds avec un peu de relief ?* »
 *   **Réponse IA** : 
     *   Modification de `game_pygame.py` pour utiliser `pygame.draw.circle` avec des superpositions simples pour créer un effet d'ombre et de reflet sur les pions, sans utiliser d'images externes complexes.
+
+## 4. Amélioration du menu et gestion du volume
+
+*   **Description de la problématique** : Le menu Tkinter était très basique, il manquait le choix du thème, la gestion du volume, l'option de retour menu depuis le jeu, et le volume en jeu.
+*   **Prompt effectué** : 
+    1. « *Peux-tu améliorer le menu Tkinter pour ajouter un curseur de volume et un bouton pour retourner au menu depuis la fenêtre de jeu ?* »
+    2. « *Comment faire pour que le volume soit pris en compte dans le jeu Pygame ?* »
+    3. « *Mets l'option volume musique aussi quand on joue* »
+*   **Réponse IA** : 
+    *   Modification de `gfx/menu_tkinter.py` pour ajouter un `tk.Scale` pour le volume.
+    *   Modification de `gfx/game_pygame.py` pour ajouter des boutons `+` et `-` de volume, un bouton "Retour Menu" sur le panneau d'information, et gestion de ces clics dynamiquement.
+    *   Refonte de la boucle principale dans `main.py` pour gérer le retour d'état (Action `menu` vs `quit`), et boucler sur `show_menu()`.
+
+## 5. Intégration du Mode IA et Refonte Design du Menu
+
+*   **Description de la problématique** : Demande d'ajouter la possibilité de jouer contre une IA (Intelligence Artificielle) et demande de refonte esthétique complète du menu principal.
+*   **Prompt effectué** : 
+    1. « *Peux tu m'aider à ajouter l'option de jouer contre une ia et aussi l'amélioration du menu* »
+*   **Réponse IA** : 
+    *   Dans `core/game_logic.py`, ajout de `get_ai_move` : l'ordinateur fait la liste des coups valides et sélectionne un coin s'il en a l'opportunité, sinon il choisit un coup aléatoire.
+    *   Dans `gfx/game_pygame.py`, automatisation du tour de Blanc si l'option "vs IA" est cochée (le jeu bloque la souris pendant 600ms pour simuler le délai de "réflexion").
+    *   Refonte totale de `gfx/menu_tkinter.py` avec `ttk`, implémentation d'un thème sombre moderne ("clam"), polices lisses Segoe UI, mise en forme sous forme de "cartes" et ajout d'un petit logo.

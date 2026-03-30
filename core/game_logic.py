@@ -3,6 +3,7 @@
 # MA_24_Othello
 # Fichier pour la logique du jeu Othello
  
+import random
 from .board import Board
  
 class GameLogic:
@@ -93,4 +94,19 @@ class GameLogic:
         if self.get_valid_moves(1) or self.get_valid_moves(2):
             return False
         return True
+
+    def get_ai_move(self, player):
+        """Retourne le meilleur coup (ou un coup aléatoire décent) pour l'IA"""
+        valid_moves = self.get_valid_moves(player)
+        if not valid_moves:
+            return None
+            
+        # Stratégie 1 : Jouer un coin si disponible (stratégie très forte au Othello)
+        coins = [(0,0), (0,7), (7,0), (7,7)]
+        coins_valides = [m for m in valid_moves if m in coins]
+        if coins_valides:
+            return random.choice(coins_valides)
+            
+        # Stratégie 2 : Autrement, jouer un coup aléatoire pour ne pas trop compliquer
+        return random.choice(valid_moves)
  
