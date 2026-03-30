@@ -38,3 +38,4 @@ Le projet s'organise autour d'une séparation claire :
 Auteurs : Eyuel Worku, Taveeporn Matta.
 Code assisté par IA.
 Readme rédigé par IA.
+Musique : Eric Skiff - Underclocked (libre de droits).
